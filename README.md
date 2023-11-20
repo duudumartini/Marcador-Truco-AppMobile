@@ -1,1 +1,0 @@
-# Marcador-Truco-AppMobile

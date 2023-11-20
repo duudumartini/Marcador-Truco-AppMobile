@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Marca Truco</string>
+    <string name="nav_header_title">Marca Truco</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_pontos">Pontos</string>
+    <string name="menu_cartas">Cartas</string>
+    <string name="menu_config">Configuração</string>
+</resources>

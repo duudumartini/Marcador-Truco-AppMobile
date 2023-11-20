@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_pontos"
+            android:icon="@drawable/ic_espadas"
+            android:title="@string/menu_pontos" />
+        <item
+            android:id="@+id/nav_cartas"
+            android:icon="@drawable/ic_copas"
+            android:title="@string/menu_cartas" />
+    </group>
+
+    <group android:id="@+id/espacamento">
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+        <item
+            android:title=""
+            android:icon="@android:color/transparent"/>
+    </group>
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_config"
+            android:icon="@drawable/ic_config"
+            android:title="@string/menu_config" />
+    </group>
+</menu>
