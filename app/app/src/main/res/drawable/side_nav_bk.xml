@@ -2,5 +2,5 @@
     <corners
         android:topRightRadius="30dp"
         android:bottomRightRadius="30dp" />
-    <solid android:color="@color/Secundaria" />
+    <solid android:color="@color/BkMenuLateral" />
 </shape>

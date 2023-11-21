@@ -6,4 +6,11 @@
     <string name="menu_pontos">Pontos</string>
     <string name="menu_cartas">Cartas</string>
     <string name="menu_config">Configuração</string>
+
+    <string name="pontos_nos">Nós</string>
+    <string name="pontos_eles">Eles</string>
+
+    <string name="vitorias_nos">1 Vitoria</string>
+    <string name="vitorias_eles">0 Vitoria</string>
+    <string name="Zerar">Zerar</string>
 </resources>

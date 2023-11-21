@@ -3,9 +3,21 @@
     <color name="Primaria">#d43b43</color>
     <color name="Secundaria">#162442</color>
     <color name="Titulo">#f0642f</color>
+
+    <color name="BarraMenuSuperior">#040404</color>
+
+    <color name="BkMenuLateralBlocoSuperior">#D3490E11</color>
+    <color name="BkMenuLateral">#28D43B43</color>
+
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
 </resources>
+
+
+
