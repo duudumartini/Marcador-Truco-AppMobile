@@ -1,0 +1,5 @@
+<!-- rounded_red_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#99FF0000"/> <!-- 4D é a representação hexadecimal de 30% de alpha -->
+    <corners android:radius="12dp"/> <!-- Ajuste o valor de radius conforme necessário para obter bordas arredondadas -->
+</shape>

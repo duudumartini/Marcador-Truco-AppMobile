@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/anton_regular"
+        android:textSize="50sp"
+        android:textColor="@color/white"
+        android:text="Deseja" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/anton_regular"
+        android:textSize="100sp"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:text="ZERAR" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/anton_regular"
+        android:textSize="50sp"
+        android:textColor="@color/white"
+        android:text="as vitóras ?" />
+
+    <Button
+        android:id="@+id/btn_zerarvitorias"
+        android:layout_marginTop="50dp"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/Primaria"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:text="ZERAR VITÓRIAS" />
+
+    <Button
+        android:id="@+id/btn_cancelarzerarvitorias"
+        android:layout_marginTop="50dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#8A131A"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:text="CANCELAR" />
+
+</LinearLayout>
