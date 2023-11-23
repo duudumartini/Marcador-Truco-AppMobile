@@ -1,6 +1,5 @@
 package com.example.marcatruco
 
-import android.content.Context
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -22,13 +21,9 @@ import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.text.InputFilter
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import java.util.*
-
 
 class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var sistemaDeFala: TextToSpeech
@@ -45,14 +40,20 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var txtNos: TextView
     private lateinit var txtEles: TextView
 
-    var vitoriasNos = 0
-    var vitoriasEles = 0
+    private lateinit var btnSomaNos: ImageView
+    private lateinit var btnSomaEles: ImageView
+    private lateinit var btnSubNos: ImageView
+    private lateinit var btnSubEles: ImageView
+    private lateinit var btnTruco: ImageView
+    private lateinit var btnZerar: Button
 
-    var som = true
+    private var vitoriasNos = 0
+    private var vitoriasEles = 0
+
+    private var som = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -69,26 +70,51 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
         sistemaDeFala = TextToSpeech(this, this)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.nav_pontos) {
+
+            }
+            else if (destination.id == R.id.nav_cartas) {
+
+            }
+            else if (destination.id == R.id.nav_config) {
+
+            }
+        }
+
+
+        FindViewById()
+        ClickListerner()
+
+        Handler().postDelayed({
+            Fala("Bem vindo ao Marca Truco!")
+        }, 300)
+    }
+
+    fun FindViewById(){
         txtNos = findViewById<TextView>(R.id.txt_nos)
         txtEles = findViewById<TextView>(R.id.txt_eles)
 
-        val btnSomaNos = findViewById<ImageView>(R.id.btn_soma_nos)
-        val btnSomaEles = findViewById<ImageView>(R.id.btn_soma_eles)
-        val btnSubNos = findViewById<ImageView>(R.id.btn_sub_nos)
-        val btnSubEles = findViewById<ImageView>(R.id.btn_sub_eles)
+        btnSomaNos = findViewById<ImageView>(R.id.btn_soma_nos)
+        btnSomaEles = findViewById<ImageView>(R.id.btn_soma_eles)
+        btnSubNos = findViewById<ImageView>(R.id.btn_sub_nos)
+        btnSubEles = findViewById<ImageView>(R.id.btn_sub_eles)
 
         txtPontosNos = findViewById<TextView>(R.id.txt_pontos_nos)
         txtPontosEles = findViewById<TextView>(R.id.txt_pontos_eles)
 
-        val btnTruco = findViewById<ImageView>(R.id.btn_truco)
+        btnTruco = findViewById<ImageView>(R.id.btn_truco)
 
         txtVitEles = findViewById<TextView>(R.id.txt_vit_eles)
         txtVitNos = findViewById<TextView>(R.id.txt_vit_nos)
 
-        val btnZerar = findViewById<Button>(R.id.btn_zerar)
+        btnZerar = findViewById<Button>(R.id.btn_zerar)
+    }
 
+    fun ClickListerner(){
         txtNos.setOnClickListener {
             MostraEditaTexto(txtNos)
         }
@@ -122,11 +148,8 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
         ZeraVitorias(txtVitNos, txtVitEles)
         ZeraPontuacao()
-
-        Handler().postDelayed({
-            Fala("Bem vindo ao Marca Truco!")
-        }, 300)
     }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -206,9 +229,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
 
     }
-
-
-
 
     fun ZeraPontuacao() {
         txtPontosNos.text = "0";
