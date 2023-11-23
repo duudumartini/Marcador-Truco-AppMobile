@@ -33,15 +33,6 @@
         <item
             android:title=""
             android:icon="@android:color/transparent"/>
-        <item
-            android:title=""
-            android:icon="@android:color/transparent"/>
-        <item
-            android:title=""
-            android:icon="@android:color/transparent"/>
-        <item
-            android:title=""
-            android:icon="@android:color/transparent"/>
     </group>
 
 

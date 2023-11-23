@@ -11,12 +11,10 @@
         android:src="@drawable/trofeu" />
 
     <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:background="@drawable/fundo_vencedores"
-
         android:orientation="vertical">
 
         <TextView
@@ -24,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/tradewinds_regular"
-            android:text="#########"
+            android:text="Matador de onça"
             android:textAlignment="center"
-            android:textColor="#383838"
-            android:textSize="40sp" />
+            android:textColor="@color/white"
+            android:textSize="50sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -35,7 +33,7 @@
             android:fontFamily="@font/tradewinds_regular"
             android:text="Vencedores"
             android:textAlignment="center"
-            android:textColor="#383838"
+            android:textColor="@color/white"
             android:textSize="30sp" />
     </LinearLayout>
 

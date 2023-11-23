@@ -14,15 +14,20 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import android.text.InputFilter
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import android.graphics.drawable.ColorDrawable
 import android.graphics.Color
+import android.os.Handler
+import android.speech.tts.TextToSpeech
+import android.util.Log
+import android.widget.Toast
+import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
+    private lateinit var sistemaDeFala: TextToSpeech
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -38,6 +43,8 @@ class MainActivity : AppCompatActivity() {
 
     var vitoriasNos = 0
     var vitoriasEles = 0
+
+    var som = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +66,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        sistemaDeFala = TextToSpeech(this, this)
 
         txtNos = findViewById<TextView>(R.id.txt_nos)
         txtEles = findViewById<TextView>(R.id.txt_eles)
@@ -109,10 +118,12 @@ class MainActivity : AppCompatActivity() {
         btnTruco.setOnClickListener {
             truco()
         }
-
-
         ZeraVitorias(txtVitNos, txtVitEles)
         ZeraPontuacao()
+
+        Handler().postDelayed({
+            Fala("Bem vindo ao Marca Truco!")
+        }, 300)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -120,10 +131,16 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        sistemaDeFala?.stop()
+        sistemaDeFala?.shutdown()
+    }
+
     fun MostraEditaTexto(textView: TextView) {
         val editText = EditText(this)
         editText.setText(textView.text)
-        val maxCharacter = 10
+        val maxCharacter = 15
         val inputFilter = InputFilter.LengthFilter(maxCharacter)
         editText.filters = arrayOf(inputFilter)
 
@@ -177,6 +194,7 @@ class MainActivity : AppCompatActivity() {
                 ZeraPontuacao()
                 AlteraCorVitoria()
                 MostraVitoria(txtNos)
+                Fala("A equipe" + txtNos.text + "ganhou essa partida !")
             }
             if (pontos.id == R.id.txt_pontos_eles) {
                 vitoriasEles++
@@ -184,6 +202,37 @@ class MainActivity : AppCompatActivity() {
                 ZeraPontuacao()
                 AlteraCorVitoria()
                 MostraVitoria(txtEles)
+                Fala("A equipe" + txtEles.text + "ganhou essa partida !")
+            }
+        }
+        if (pontos.id == R.id.txt_pontos_nos && novosPontos < 12) {
+            var equipe = txtNos.text
+            if(QtdPontos == 1){
+                Fala("A equipe" + equipe + "ganhou um ponto")
+            }
+            else if(QtdPontos == 3){
+                Fala("A equipe" + equipe + "ganhou três pontos")
+            }
+            else if(QtdPontos == 6){
+                Fala("A equipe" + equipe + "ganhou seis pontos")
+            }
+            else if(QtdPontos == 9){
+                Fala("A equipe" + equipe + "ganhou nove pontos")
+            }
+        }
+        if (pontos.id == R.id.txt_pontos_eles && novosPontos < 12) {
+            var equipe = txtEles.text
+            if(QtdPontos == 1){
+                Fala("A equipe" + equipe + "ganhou um ponto")
+            }
+            else if(QtdPontos == 3){
+                Fala("A equipe" + equipe + "ganhou três pontos")
+            }
+            else if(QtdPontos == 6){
+                Fala("A equipe" + equipe + "ganhou seis pontos")
+            }
+            else if(QtdPontos == 9){
+                Fala("A equipe" + equipe + "ganhou nove pontos")
             }
         }
     }
@@ -193,11 +242,19 @@ class MainActivity : AppCompatActivity() {
         if (pontosAtuais > 0) {
             val novosPontos = pontosAtuais - QtdPontos
             pontos.text = novosPontos.toString()
+            if (pontos.id == R.id.txt_pontos_nos) {
+                var equipe = txtNos.text
+                Fala("A equipe" + equipe + "perdeu um ponto !")
+            }
+            else if (pontos.id == R.id.txt_pontos_eles) {
+                var equipe = txtEles.text
+                Fala("A equipe" + equipe + "perdeu um ponto !")
+            }
         }
     }
 
     fun ConfimaZeraVitorias() {
-
+        Fala("Deseja ZERAR as vitórias?")
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val view = inflater.inflate(R.layout.zerar_pontos, null)
@@ -215,6 +272,7 @@ class MainActivity : AppCompatActivity() {
         val zerarVitorias = view.findViewById<Button>(R.id.btn_zerarvitorias)
         zerarVitorias.setOnClickListener {
             ZeraVitorias(txtVitNos, txtVitEles)
+            Fala("Vitórias ZERADAS")
             dialog.dismiss()
         }
     }
@@ -304,6 +362,29 @@ class MainActivity : AppCompatActivity() {
         val okButton = view.findViewById<Button>(R.id.ok_button)
         okButton.setOnClickListener {
             dialog.dismiss()
+        }
+    }
+
+    fun Fala(fala: String){
+        if(som == true){
+            sistemaDeFala?.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
+        }
+    }
+
+    override fun onInit(status: Int) {
+        Log.d("TextToSpeech", "onInit status: $status")
+        if (status == TextToSpeech.SUCCESS) {
+            // Definir o idioma para o Text-to-Speech (opcional)
+            val locale = Locale.getDefault()
+            val result = sistemaDeFala?.setLanguage(locale)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                // Se o idioma não estiver disponível ou não suportado, trate conforme necessário
+                Toast.makeText(this, "Idioma não suportado para sistema de fala", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // Se a inicialização falhar, trate conforme necessário
+            Toast.makeText(this, "Erro na inicialização do sistema de fala", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:textSize="40sp"
             android:fontFamily="@font/anton_regular"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:layout_marginBottom="10dp"
             android:text="@string/pontos_nos" />
         <ImageView
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:textSize="40sp"
             android:fontFamily="@font/anton_regular"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:layout_marginBottom="10dp"
             android:text="@string/pontos_eles" />
 
