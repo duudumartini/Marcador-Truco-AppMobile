@@ -1,5 +1,6 @@
 package com.example.marcatruco
 
+import android.content.Context
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -13,7 +14,6 @@ import com.example.marcatruco.databinding.ActivityMainBinding
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import android.text.InputFilter
 import android.widget.Button
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -21,8 +21,12 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
+import android.text.InputFilter
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import java.util.*
 
 
@@ -57,8 +61,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_pontos, R.id.nav_cartas, R.id.nav_config
@@ -125,7 +127,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             Fala("Bem vindo ao Marca Truco!")
         }, 300)
     }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -137,37 +138,77 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         sistemaDeFala?.shutdown()
     }
 
-    fun MostraEditaTexto(textView: TextView) {
-        val editText = EditText(this)
-        editText.setText(textView.text)
-        val maxCharacter = 15
-        val inputFilter = InputFilter.LengthFilter(maxCharacter)
-        editText.filters = arrayOf(inputFilter)
+    fun MostraEditaTexto(nomeDoTime: TextView) {
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.edita_times, null)
+        builder.setView(view)
 
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Editar Texto")
-            .setView(editText)
-            .setPositiveButton("OK") { dialog, _ ->
-                textView.text = editText.text
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancelar") { dialog, _ ->
-                dialog.cancel()
-            }
-            .create()
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#000000")))
+        dialog.show()
 
-        alertDialog.setOnShowListener {
-            val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            val negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        val edTxt_EditaTime = view.findViewById<EditText>(R.id.edtxt_edita_time)
+        edTxt_EditaTime.setText(nomeDoTime.text)
 
-            positiveButton.setTextColor(ContextCompat.getColor(this, android.R.color.white))
-            negativeButton.setTextColor(ContextCompat.getColor(this, android.R.color.white))
+        val corAtual = nomeDoTime.currentTextColor
+        edTxt_EditaTime.setTextColor(corAtual)
+
+        val tamanhoMaximo = 20
+        edTxt_EditaTime.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(tamanhoMaximo))
+
+        val corVermelho = view.findViewById<Button>(R.id.cor_vermelho_edita_time)
+        val corCinza = view.findViewById<Button>(R.id.cor_cinza_edita_time)
+        val corLaranja = view.findViewById<Button>(R.id.cor_laranja_edita_time)
+        val corRosa = view.findViewById<Button>(R.id.cor_rosa_edita_time)
+        val corVerde= view.findViewById<Button>(R.id.cor_verde_edita_time)
+        val corAmarelo = view.findViewById<Button>(R.id.cor_amarelo_edita_time)
+        val corAzul = view.findViewById<Button>(R.id.cor_azul_edita_time)
+
+        corVermelho.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.red))
+        }
+        corCinza.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.Cinza))
+        }
+        corLaranja.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.Laranja))
+        }
+        corRosa.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.Rosa))
+        }
+        corVerde.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.Verde))
+        }
+        corAmarelo.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.Amarelo))
+        }
+        corAzul.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(this, R.color.Azul))
         }
 
-        alertDialog.window?.setBackgroundDrawableResource(R.drawable.pop_up_personalizado)
+        val cancelar = view.findViewById<Button>(R.id.btn_cancelar_editaTime)
+        cancelar.setOnClickListener { dialog.dismiss() }
 
-        alertDialog.show()
+        val confirma = view.findViewById<Button>(R.id.btn_confirmar_editaTime)
+        confirma.setOnClickListener {
+            val novoNome = edTxt_EditaTime.text.toString()
+            if(nomeDoTime.id == R.id.txt_nos) {
+                txtNos.text = novoNome
+                txtNos.setTextColor(edTxt_EditaTime.currentTextColor)
+            }
+            else if(nomeDoTime.id == R.id.txt_eles) {
+                txtEles.text = novoNome
+                txtEles.setTextColor(edTxt_EditaTime.currentTextColor)
+            }
+            dialog.dismiss()
+        }
+
+
     }
+
+
+
 
     fun ZeraPontuacao() {
         txtPontosNos.text = "0";

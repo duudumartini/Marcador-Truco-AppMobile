@@ -17,6 +17,14 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
+
+    <color name="Cinza">#515151</color>
+    <color name="Laranja">#FF8D00</color>
+    <color name="Rosa">#E600FF</color>
+    <color name="Verde">#11FF00</color>
+    <color name="Azul">#00F7FF</color>
+    <color name="Amarelo">#EEFF00</color>
+
 </resources>
 
 
