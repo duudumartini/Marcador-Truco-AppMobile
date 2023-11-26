@@ -1,6 +1,7 @@
 package com.example.marcatruco
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -12,11 +13,13 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marcatruco.databinding.ActivityMainBinding
+import com.example.marcatruco.ui.pontos.PontosFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var pontosFragment: PontosFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        pontosFragment = PontosFragment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
