@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.marcatruco.databinding.FragmentHistoricoBinding
+import com.example.marcatruco.ui.classes.VencedorClass
+import com.example.marcatruco.ui.pontos.PontosViewModel
 
 
 class HistoricoFragment : Fragment() {
@@ -21,17 +23,26 @@ class HistoricoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val pontosViewModel = ViewModelProvider(this).get(PontosViewModel::class.java)
         val historicoViewModel = ViewModelProvider(this).get(HistoricoViewModel::class.java)
 
         _binding = FragmentHistoricoBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textGallery
+
+/*
+
+
         historicoViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        showToast("Fragmento Gallery aberto!")
-
+*/      val vencedor1 = VencedorClass().apply {
+            nos = 10
+            eles = 12
+            vencedor = "Eles"
+            hora = "10:00 AM"
+        }
+        //historicoViewModel.adicionarVencedorHistorico(vencedor1)
         return root
     }
 

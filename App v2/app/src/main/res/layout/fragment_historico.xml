@@ -4,19 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.historico.HistoricoFragment">
+    tools:context=".ui.historico.HistoricoFragment"
+    android:background="@color/black">
 
-    <TextView
-        android:id="@+id/text_gallery"
+    <LinearLayout
+        android:id="@+id/bloco_tabela_historico"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_limpa_historico">
+
+        <TableLayout
+            android:id="@+id/tabela_historico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FF0000">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/anton_regular"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Nós"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/anton_regular"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Eles"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/anton_regular"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Vencedor"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/anton_regular"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Hora"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+
+            </TableRow>
+        </TableLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#400000">
+
+                    <TextView
+                        android:id="@+id/tabela_nos_historico"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/anton_regular"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="2"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tabela_eles_historico"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/anton_regular"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="12"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tabela_ganhador_historico"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/anton_regular"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="Nós"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tabela_hora_historico"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/anton_regular"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="16:06:03"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_limpa_historico"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:text="LIMPAR HISTORICO"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        android:fontFamily="@font/anton_regular"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

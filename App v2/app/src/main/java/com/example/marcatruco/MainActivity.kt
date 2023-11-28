@@ -1,7 +1,6 @@
 package com.example.marcatruco
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_pontos, R.id.nav_historico, R.id.nav_configuracoes
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

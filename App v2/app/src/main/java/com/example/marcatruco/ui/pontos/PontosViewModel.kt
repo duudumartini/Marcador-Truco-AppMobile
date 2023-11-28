@@ -5,9 +5,13 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.marcatruco.ui.classes.VencedorClass
+import com.example.marcatruco.ui.historico.HistoricoViewModel
 
 class PontosViewModel : ViewModel() {
     var appIniciou = false
@@ -20,7 +24,7 @@ class PontosViewModel : ViewModel() {
     var vibracao = true
     var timeNosVenceu = false
     var timeElesVenceu = false
-
+    var listaVencedoresPontos: List<VencedorClass> = listOf()
     private val _pontosNos = MutableLiveData<Int>()
     private val _pontosEles = MutableLiveData<Int>()
     private val _txtVitNos = MutableLiveData<String>()
@@ -56,6 +60,7 @@ class PontosViewModel : ViewModel() {
         else if(time == "eles"){
             if(resultadoEles >= 12){
                 vitoriaEles++
+
                 timeElesVenceu = true
                 zeraPontos()
             }
@@ -128,5 +133,16 @@ class PontosViewModel : ViewModel() {
         }
 
     }
+
+    fun adicionaNoHistorico(context: Fragment) {
+        val historicoViewModel = ViewModelProvider(context).get(HistoricoViewModel::class.java)
+
+        Log.e("MeuErro", "Adicionou")
+
+        // Observe que você deve usar o método apropriado para adicionar um novo vencedor à lista.
+        historicoViewModel.adicionarVencedorHistorico(3,10)
+    }
+
+
 
 }

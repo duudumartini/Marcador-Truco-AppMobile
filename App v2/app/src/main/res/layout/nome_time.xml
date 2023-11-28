@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/titulo_edita_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/anton_regular"
+        android:text="EDITAR NOME DO TIME"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/edtxt_edita_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:fontFamily="@font/anton_regular"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:inputType="text"
+        android:textColor="@color/red"
+        android:text="Name" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cor_vermelho_edita_time"
+            android:backgroundTint="@color/red"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/cor_roxo_edita_time"
+            android:backgroundTint="#AA00FF"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/cor_laranja_edita_time"
+            android:backgroundTint="#FF8D00"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/cor_rosa_edita_time"
+            android:backgroundTint="#D500F9"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/cor_verde_edita_time"
+            android:backgroundTint="#11FF00"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/cor_azul_edita_time"
+            android:backgroundTint="#00F7FF"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/cor_amarelo_edita_time"
+            android:backgroundTint="#EEFF00"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyt_btn_editaTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_confirmar_editaTime"
+            android:layout_width="250dp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/anton_regular"
+            android:textSize="25sp"
+            android:text="Confirmar"
+            android:textColor="@color/black"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/white"/>
+
+        <Button
+            android:id="@+id/btn_cancelar_editaTime"
+            android:layout_width="150dp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/anton_regular"
+            android:textSize="20sp"
+            android:text="Cancelar"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"/>
+    </LinearLayout>
+
+</LinearLayout>

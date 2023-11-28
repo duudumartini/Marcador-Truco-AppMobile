@@ -47,6 +47,7 @@
         android:textSize="20sp"
         android:textColor="@color/white"
         android:fontFamily="@font/anton_regular"
+        android:backgroundTint="@color/red"
         android:text="Jogar Novamente" />
 
 </LinearLayout>

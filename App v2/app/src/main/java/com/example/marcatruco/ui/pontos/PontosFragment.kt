@@ -5,11 +5,13 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -88,6 +90,7 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         ButtonListeners()
         AtualizaCorVitoria()
         FalaBoasVindas()
+        pontosViewModel.adicionaNoHistorico(this)
         return root
     }
 
@@ -100,6 +103,12 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
     fun ButtonListeners() {
+        txtNos.setOnClickListener {
+            edita_nome_time(txtNos)
+        }
+        txtEles.setOnClickListener {
+            edita_nome_time(txtEles)
+        }
         btnSomaNos.setOnClickListener {
             pontosViewModel.somaPontos("nos", 1, requireContext())
             Fala("A equipe ${txtNos.text} marcou um ponto")
@@ -139,7 +148,6 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             sistemaDeFala?.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
         }
     }
-
     fun VerificaGanhador(){
         if(pontosViewModel.timeNosVenceu == true){
             vitoria(txtNos)
@@ -154,12 +162,10 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         txtPontosNos.text = pontosViewModel.pontosNos.toString()
         txtPontosEles.text = pontosViewModel.pontosEles.toString()
     }
-
     fun AtualizaTextoVitoria() {
         txtVitNos.text = "${pontosViewModel.vitoriaNos} Vitórias"
         txtVitEles.text = "${pontosViewModel.vitoriaEles} Vitórias"
     }
-
     fun AtualizaCorVitoria() {
         if (pontosViewModel.vitoriaNos == pontosViewModel.vitoriaEles) {
             txtVitNos.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -172,7 +178,6 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             txtVitEles.setTextColor(ContextCompat.getColor(requireContext(), R.color.yellow))
         }
     }
-
     fun truco() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
@@ -240,7 +245,6 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             dialog.dismiss()
         }
     }
-
     fun zerar() {
         pontosViewModel.pequenaVibracao(requireContext())
         Fala("Deseja ZERAR as vitórias?")
@@ -274,7 +278,73 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             Fala("Não há vitórias para serem ZERADAS !")
         }
     }
+    fun edita_nome_time(time: TextView){
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.nome_time, null)
+        builder.setView(view)
 
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#000000")))
+        dialog.show()
+
+        val edTxt_EditaTime = view.findViewById<EditText>(R.id.edtxt_edita_time)
+
+        edTxt_EditaTime.setText(time.text)
+
+        val corAtual = time.currentTextColor
+        edTxt_EditaTime.setTextColor(corAtual)
+
+        val tamanhoMaximo = 20
+        edTxt_EditaTime.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(tamanhoMaximo))
+
+        val corVermelho = view.findViewById<Button>(R.id.cor_vermelho_edita_time)
+        val corCinza = view.findViewById<Button>(R.id.cor_roxo_edita_time)
+        val corLaranja = view.findViewById<Button>(R.id.cor_laranja_edita_time)
+        val corRosa = view.findViewById<Button>(R.id.cor_rosa_edita_time)
+        val corVerde= view.findViewById<Button>(R.id.cor_verde_edita_time)
+        val corAmarelo = view.findViewById<Button>(R.id.cor_amarelo_edita_time)
+        val corAzul = view.findViewById<Button>(R.id.cor_azul_edita_time)
+
+        corVermelho.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+        }
+        corCinza.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.purple))
+        }
+        corLaranja.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        }
+        corRosa.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
+        }
+        corVerde.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+        }
+        corAmarelo.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.yellow))
+        }
+        corAzul.setOnClickListener {
+            edTxt_EditaTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        }
+
+        val cancelar = view.findViewById<Button>(R.id.btn_cancelar_editaTime)
+        cancelar.setOnClickListener { dialog.dismiss() }
+
+        val confirma = view.findViewById<Button>(R.id.btn_confirmar_editaTime)
+        confirma.setOnClickListener {
+            val novoNome = edTxt_EditaTime.text.toString()
+            if(time.id == R.id.txt_nos) {
+                txtNos.text = novoNome
+                txtNos.setTextColor(edTxt_EditaTime.currentTextColor)
+            }
+            else if(time.id == R.id.txt_eles) {
+                txtEles.text = novoNome
+                txtEles.setTextColor(edTxt_EditaTime.currentTextColor)
+            }
+            dialog.dismiss()
+        }
+    }
     fun vitoria(timeVencedor: TextView) {
         pontosViewModel.grandeVibracao(requireContext())
         Fala("A equipe ${timeVencedor.text} ganhou essa partida !")
@@ -301,7 +371,6 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             // Initialization failed
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         sistemaDeFala.shutdown()

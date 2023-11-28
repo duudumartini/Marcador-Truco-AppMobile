@@ -10,4 +10,9 @@
 
     <color name="red">#FF0000</color>
     <color name="yellow">#EEFF41</color>
+    <color name="purple">#AA00FF</color>
+    <color name="orange">#FF8D00</color>
+    <color name="pink">#D500F9</color>
+    <color name="green">#11FF00</color>
+    <color name="blue">#00F7FF</color>
 </resources>
