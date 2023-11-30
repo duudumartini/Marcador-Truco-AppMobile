@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.marcatruco.databinding.ActivityMainBinding
 import com.example.marcatruco.ui.pontos.PontosFragment
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

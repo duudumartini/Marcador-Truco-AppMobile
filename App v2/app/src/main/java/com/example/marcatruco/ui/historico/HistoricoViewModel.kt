@@ -1,6 +1,10 @@
 package com.example.marcatruco.ui.historico
 
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +15,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class HistoricoViewModel : ViewModel() {
-    private val _listaVencedoresHistorico = mutableListOf<VencedorClass>()
+    public var _listaVencedoresHistorico = mutableListOf<VencedorClass>()
+
+
+    private val _listaVencedores = MutableLiveData<List<VencedorClass>>()
+
+    val listaVencedores: LiveData<List<VencedorClass>>
+        get() = _listaVencedores
+
+
     fun adicionarVencedorHistorico(pontosNos: Int, pontosEles: Int) {
         val novoVencedor = VencedorClass().apply {
             nos = pontosNos
@@ -26,8 +38,11 @@ class HistoricoViewModel : ViewModel() {
             hora = obterHoraAtual()
         }
         _listaVencedoresHistorico.add(novoVencedor)
-        Log.d("MeuErro", _listaVencedoresHistorico.size.toString())
-        Log.d("MeuErro", _listaVencedoresHistorico[(_listaVencedoresHistorico.size)-1].hora)
+        _listaVencedores.value = _listaVencedoresHistorico.toList()
+       // _listaVencedores.value = updatedList.toList()
+
+
+        Log.e("MeuErro ViewModel",_listaVencedoresHistorico.size.toString())
     }
 
     private fun obterHoraAtual(): String {

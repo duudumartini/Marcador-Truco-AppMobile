@@ -5,4 +5,5 @@ class VencedorClass {
     var eles: Int = 0
     var vencedor: String = ""
     var hora: String = ""
+
 }

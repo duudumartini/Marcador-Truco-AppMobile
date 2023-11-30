@@ -4,13 +4,11 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.marcatruco.ui.classes.VencedorClass
 import com.example.marcatruco.ui.historico.HistoricoViewModel
 
 class PontosViewModel : ViewModel() {
@@ -24,7 +22,9 @@ class PontosViewModel : ViewModel() {
     var vibracao = true
     var timeNosVenceu = false
     var timeElesVenceu = false
-    var listaVencedoresPontos: List<VencedorClass> = listOf()
+
+    lateinit var _fragment: Fragment
+
     private val _pontosNos = MutableLiveData<Int>()
     private val _pontosEles = MutableLiveData<Int>()
     private val _txtVitNos = MutableLiveData<String>()
@@ -50,6 +50,7 @@ class PontosViewModel : ViewModel() {
             if(resultadoNos >= 12){
                 vitoriaNos++
                 timeNosVenceu = true
+                adicionaVencedorHistorico(12,pontosEles, _fragment)
                 zeraPontos()
             }
             else if(resultadoNos < 12)
@@ -60,7 +61,7 @@ class PontosViewModel : ViewModel() {
         else if(time == "eles"){
             if(resultadoEles >= 12){
                 vitoriaEles++
-
+                adicionaVencedorHistorico(pontosNos,12, _fragment)
                 timeElesVenceu = true
                 zeraPontos()
             }
@@ -134,13 +135,12 @@ class PontosViewModel : ViewModel() {
 
     }
 
-    fun adicionaNoHistorico(context: Fragment) {
-        val historicoViewModel = ViewModelProvider(context).get(HistoricoViewModel::class.java)
-
-        Log.e("MeuErro", "Adicionou")
-
-        // Observe que você deve usar o método apropriado para adicionar um novo vencedor à lista.
-        historicoViewModel.adicionarVencedorHistorico(3,10)
+    fun obtemFragment(fragment: Fragment) {
+        _fragment = fragment
+    }
+    fun adicionaVencedorHistorico(pontosNos: Int, pontosEles: Int, fragment: Fragment){
+        val _historicoViewModel = ViewModelProvider(_fragment).get(HistoricoViewModel::class.java)
+        _historicoViewModel.adicionarVencedorHistorico(pontosNos,pontosEles)
     }
 
 

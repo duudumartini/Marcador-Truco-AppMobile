@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.text.InputFilter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.marcatruco.R
 import com.example.marcatruco.databinding.FragmentPontosBinding
-import org.w3c.dom.Text
 
 class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
 
@@ -90,7 +88,7 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         ButtonListeners()
         AtualizaCorVitoria()
         FalaBoasVindas()
-        pontosViewModel.adicionaNoHistorico(this)
+        pontosViewModel.obtemFragment(this)
         return root
     }
 

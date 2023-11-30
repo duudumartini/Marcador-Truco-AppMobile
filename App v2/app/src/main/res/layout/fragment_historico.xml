@@ -17,7 +17,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_limpa_historico">
 
         <TableLayout
-            android:id="@+id/tabela_historico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TableRow
@@ -75,10 +74,12 @@
             android:layout_height="match_parent" >
 
             <TableLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TableRow
+                    android:id="@+id/tabela_historico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#400000">
