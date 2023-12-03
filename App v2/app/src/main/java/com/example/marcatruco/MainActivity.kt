@@ -1,7 +1,9 @@
 package com.example.marcatruco
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -12,18 +14,22 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marcatruco.databinding.ActivityMainBinding
+import com.example.marcatruco.ui.classes.VencedorClass
+import com.example.marcatruco.ui.historico.HistoricoViewModel
 import com.example.marcatruco.ui.pontos.PontosFragment
-
+import com.example.marcatruco.ui.pontos.PontosViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var pontosFragment: PontosFragment
+    val historicoViewModel: HistoricoViewModel by viewModels()
+    val pontosViewModel: PontosViewModel by viewModels()
+    var listaVencedores1: MutableList<VencedorClass> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -56,5 +62,9 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun DadosSalvos(){
+        Log.e("MeuErro",listaVencedores1.size.toString())
     }
 }

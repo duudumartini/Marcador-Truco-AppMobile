@@ -7,6 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bk_cinza">#191919</color>
+    <color name="cinza1">#595B5D</color>
+    <color name="cinza2">#3C3F41</color>
+
 
     <color name="red">#FF0000</color>
     <color name="yellow">#EEFF41</color>
@@ -15,4 +19,7 @@
     <color name="pink">#D500F9</color>
     <color name="green">#11FF00</color>
     <color name="blue">#00F7FF</color>
+
+    <color name="bktabela1">#400000</color>
+    <color name="bktabela2">#950000</color>
 </resources>

@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.marcatruco.ui.historico.HistoricoViewModel
+import com.example.marcatruco.ui.classes.SharedViewModel
+import com.example.marcatruco.ui.classes.VencedorClass
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PontosViewModel : ViewModel() {
+    private lateinit var sharedViewModel: SharedViewModel
     var appIniciou = false
     var vibracaoDuracao: Long = 200
     var pontosNos = 0
@@ -22,6 +25,11 @@ class PontosViewModel : ViewModel() {
     var vibracao = true
     var timeNosVenceu = false
     var timeElesVenceu = false
+    var pontosVit = 12
+
+    private val _listaVencedoresLiveData = MutableLiveData<MutableList<VencedorClass>>()
+    val listaVencedoresLiveData: LiveData<MutableList<VencedorClass>> = _listaVencedoresLiveData
+    var listaVencedores: MutableList<VencedorClass> = mutableListOf()
 
     lateinit var _fragment: Fragment
 
@@ -45,34 +53,30 @@ class PontosViewModel : ViewModel() {
     fun somaPontos(time: String, qtdPontos: Int, context: Context) {
         val resultadoNos = pontosNos + qtdPontos
         val resultadoEles = pontosEles + qtdPontos
-        pequenaVibracao(context)
-        if(time == "nos"){
-            if(resultadoNos >= 12){
+        //sharedViewModel.pequenaVibracao(context)
+        if (time == "nos") {
+            if (resultadoNos >= pontosVit) {
                 vitoriaNos++
                 timeNosVenceu = true
-                adicionaVencedorHistorico(12,pontosEles, _fragment)
+                adicionaVencedorALista(pontosVit, pontosEles)
                 zeraPontos()
-            }
-            else if(resultadoNos < 12)
-            {
+            } else if (resultadoNos < pontosVit) {
                 pontosNos = resultadoNos
             }
-        }
-        else if(time == "eles"){
-            if(resultadoEles >= 12){
+        } else if (time == "eles") {
+            if (resultadoEles >= pontosVit) {
                 vitoriaEles++
-                adicionaVencedorHistorico(pontosNos,12, _fragment)
+                adicionaVencedorALista(pontosNos, pontosVit)
                 timeElesVenceu = true
                 zeraPontos()
-            }
-            else if(resultadoNos < 12)
-            {
+            } else if (resultadoNos < pontosVit) {
                 pontosEles = resultadoEles
             }
         }
     }
+
     fun subPontos(time: String, qtdPontos: Int, context: Context) {
-        pequenaVibracao(context)
+        //sharedViewModel.pequenaVibracao(context)
         if (time == "nos") {
             val resultado = pontosNos - qtdPontos
             if (resultado >= 0) {
@@ -91,58 +95,30 @@ class PontosViewModel : ViewModel() {
         pontosEles = 0
         _pontosEles.value = pontosEles
         _pontosNos.value = pontosNos
+        listaVencedores.clear()
     }
 
-    fun pequenaVibracao(context: Context) {
-        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        if (vibracao == true) {
-            vibrator?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    // para API 26 e superior
-                    it.vibrate(
-                        VibrationEffect.createOneShot(
-                            vibracaoDuracao,
-                            VibrationEffect.DEFAULT_AMPLITUDE
-                        )
-                    )
-                } else {
-                    // para API inferior a 26
-                    it.vibrate(vibracaoDuracao)
-                }
-            }
-        }
 
-    }
-
-    fun grandeVibracao(context: Context) {
-        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        if (vibracao == true) {
-            vibrator?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    // para API 26 e superior
-                    it.vibrate(
-                        VibrationEffect.createOneShot(
-                            1000,
-                            VibrationEffect.DEFAULT_AMPLITUDE
-                        )
-                    )
-                } else {
-                    // para API inferior a 26
-                    it.vibrate(2000)
-                }
-            }
-        }
-
-    }
 
     fun obtemFragment(fragment: Fragment) {
         _fragment = fragment
     }
-    fun adicionaVencedorHistorico(pontosNos: Int, pontosEles: Int, fragment: Fragment){
-        val _historicoViewModel = ViewModelProvider(_fragment).get(HistoricoViewModel::class.java)
-        _historicoViewModel.adicionarVencedorHistorico(pontosNos,pontosEles)
+
+
+    fun adicionaVencedorALista(pontosNos: Int, pontosEles: Int) {
+        val novoVencedor = VencedorClass().apply {
+            nos = pontosNos
+            eles = pontosEles
+            vencedor = if (pontosNos > pontosEles) "Nós" else "Eles"
+            hora = obterHoraAtual()
+        }
+        listaVencedores.add(novoVencedor)
+        _listaVencedoresLiveData.value = listaVencedores.toMutableList()
     }
 
 
-
+    fun obterHoraAtual(): String {
+        val formato = DateTimeFormatter.ofPattern("HH:mm:ss")
+        return LocalDateTime.now().format(formato)
+    }
 }

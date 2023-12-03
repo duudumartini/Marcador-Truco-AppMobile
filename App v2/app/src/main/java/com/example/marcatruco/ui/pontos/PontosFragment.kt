@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.text.InputFilter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +17,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.marcatruco.R
 import com.example.marcatruco.databinding.FragmentPontosBinding
+import com.example.marcatruco.ui.classes.SharedViewModel
+import com.example.marcatruco.ui.historico.HistoricoFragment
+import com.example.marcatruco.ui.historico.HistoricoViewModel
 
 class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
 
@@ -35,13 +41,13 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var btnTruco: ImageView
     private lateinit var btnZerar: Button
 
-    private lateinit var pontosViewModel: PontosViewModel
-    private lateinit var sistemaDeFala: TextToSpeech
-
     private var _binding: FragmentPontosBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val pontosViewModel: PontosViewModel by viewModels()
+    private val historicoViewModel: HistoricoViewModel by viewModels()
+    private lateinit var historicoFragment: HistoricoFragment
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -49,11 +55,10 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        pontosViewModel = ViewModelProvider(this).get(PontosViewModel::class.java)
         _binding = FragmentPontosBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        sistemaDeFala = TextToSpeech(requireContext(), this)
+        historicoFragment = HistoricoFragment()
         txtNos = binding.txtNos
         txtEles = binding.txtEles
         txtPontosNos = binding.txtPontosNos
@@ -83,19 +88,27 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             txtVitEles.text = it
         }
 
+        pontosViewModel.listaVencedoresLiveData.observe(viewLifecycleOwner, { listaVencedores ->
+            listaVencedores?.let {
+                sharedViewModel.listaVencedores.addAll(it)
+                sharedViewModel.listaVencedores = sharedViewModel.listaVencedores.toSet().toMutableList()
+            }
+        })
 
+        Log.e("MeuErro",sharedViewModel.som.toString())
+        pontosViewModel.obtemFragment(this)
         pontosViewModel.iniciaParametros()
         ButtonListeners()
         AtualizaCorVitoria()
         FalaBoasVindas()
-        pontosViewModel.obtemFragment(this)
+        Atualizacoes()
         return root
     }
 
     fun FalaBoasVindas(){
         if(pontosViewModel.appIniciou == false){
             Handler().postDelayed({
-                Fala("Bem vindo ao MARCA TRUCO !")
+                sharedViewModel.fala(requireContext(),"Bem vindo ao MARCA TRUCO !")
             }, 300)
             pontosViewModel.appIniciou = true;
         }
@@ -103,35 +116,43 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
     fun ButtonListeners() {
         txtNos.setOnClickListener {
             edita_nome_time(txtNos)
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         txtEles.setOnClickListener {
             edita_nome_time(txtEles)
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         btnSomaNos.setOnClickListener {
             pontosViewModel.somaPontos("nos", 1, requireContext())
-            Fala("A equipe ${txtNos.text} marcou um ponto")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} marcou um ponto")
             Atualizacoes()
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         btnSomaEles.setOnClickListener {
             pontosViewModel.somaPontos("eles", 1, requireContext())
-            Fala("A equipe ${txtEles.text} marcou um ponto")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} marcou um ponto")
             Atualizacoes()
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         btnSubNos.setOnClickListener {
             pontosViewModel.subPontos("nos", 1, requireContext())
-            Fala("A equipe ${txtNos.text} perdeu um ponto")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} perdeu um ponto")
             Atualizacoes()
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         btnSubEles.setOnClickListener {
             pontosViewModel.subPontos("eles", 1, requireContext())
-            Fala("A equipe ${txtEles.text} perdeu um ponto")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} perdeu um ponto")
             Atualizacoes()
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         btnZerar.setOnClickListener {
             zerar()
+            sharedViewModel.pequenaVibracao(requireContext())
         }
         btnTruco.setOnClickListener {
             truco()
+            sharedViewModel.pequenaVibracao(requireContext())
         }
 
     }
@@ -140,12 +161,12 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         AtualizaTextoVitoria()
         AtualizaPontosTime()
         VerificaGanhador()
+        pontosViewModel.som = sharedViewModel.som
+        pontosViewModel.vibracao = sharedViewModel.vibracao
+        pontosViewModel.pontosVit = sharedViewModel.pontosVit
+
     }
-    fun Fala(fala: String) {
-        if (pontosViewModel.som == true) {
-            sistemaDeFala?.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
-        }
-    }
+
     fun VerificaGanhador(){
         if(pontosViewModel.timeNosVenceu == true){
             vitoria(txtNos)
@@ -188,28 +209,28 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         val tresButtonNos = view.findViewById<ImageView>(R.id.btn_truco_tres_nos)
         tresButtonNos.setOnClickListener {
             pontosViewModel.somaPontos("nos", 3, requireContext())
-            Fala("A equipe ${txtNos.text} marcou três pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} marcou três pontos")
             Atualizacoes()
             dialog.dismiss()
         }
         val seisButtonNos = view.findViewById<ImageView>(R.id.btn_truco_seis_nos)
         seisButtonNos.setOnClickListener {
             pontosViewModel.somaPontos("nos", 6, requireContext())
-            Fala("A equipe ${txtNos.text} marcou seis pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} marcou seis pontos")
             Atualizacoes()
             dialog.dismiss()
         }
         val noveButtonNos = view.findViewById<ImageView>(R.id.btn_truco_nove_nos)
         noveButtonNos.setOnClickListener {
             pontosViewModel.somaPontos("nos", 9, requireContext())
-            Fala("A equipe ${txtNos.text} marcou nove pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} marcou nove pontos")
             Atualizacoes()
             dialog.dismiss()
         }
         val dozeButtonNos = view.findViewById<ImageView>(R.id.btn_truco_doze_nos)
         dozeButtonNos.setOnClickListener {
             pontosViewModel.somaPontos("nos", 12, requireContext())
-            Fala("A equipe ${txtNos.text} marcou doze pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} marcou doze pontos")
             Atualizacoes()
             dialog.dismiss()
         }
@@ -217,35 +238,34 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         val tresButtonEles = view.findViewById<ImageView>(R.id.btn_truco_tres_eles)
         tresButtonEles.setOnClickListener {
             pontosViewModel.somaPontos("eles", 3, requireContext())
-            Fala("A equipe ${txtEles.text} marcou três pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} marcou três pontos")
             Atualizacoes()
             dialog.dismiss()
         }
         val seisButtonEles = view.findViewById<ImageView>(R.id.btn_truco_seis_eles)
         seisButtonEles.setOnClickListener {
             pontosViewModel.somaPontos("eles", 6, requireContext())
-            Fala("A equipe ${txtEles.text} marcou seis pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} marcou seis pontos")
             Atualizacoes()
             dialog.dismiss()
         }
         val noveButtonEles = view.findViewById<ImageView>(R.id.btn_truco_nove_eles)
         noveButtonEles.setOnClickListener {
             pontosViewModel.somaPontos("eles", 9, requireContext())
-            Fala("A equipe ${txtEles.text} marcou nove pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} marcou nove pontos")
             Atualizacoes()
             dialog.dismiss()
         }
         val dozeButtonEles = view.findViewById<ImageView>(R.id.btn_truco_doze_eles)
         dozeButtonEles.setOnClickListener {
             pontosViewModel.somaPontos("eles", 12, requireContext())
-            Fala("A equipe ${txtEles.text} marcou 12 pontos")
+            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} marcou 12 pontos")
             Atualizacoes()
             dialog.dismiss()
         }
     }
     fun zerar() {
-        pontosViewModel.pequenaVibracao(requireContext())
-        Fala("Deseja ZERAR as vitórias?")
+        sharedViewModel.fala(requireContext(),"Deseja ZERAR as vitórias?")
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
         val view = inflater.inflate(R.layout.zerar_pontos, null)
@@ -266,14 +286,14 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
 
                 pontosViewModel.vitoriaEles = 0
                 pontosViewModel.vitoriaNos = 0
-                Fala("Vitórias ZERADAS !")
+                sharedViewModel.fala(requireContext(),"Vitórias ZERADAS !")
                 AtualizaTextoVitoria()
                 AtualizaCorVitoria()
                 pontosViewModel.zeraPontos()
                 dialog.dismiss()
             }
         } else {
-            Fala("Não há vitórias para serem ZERADAS !")
+            sharedViewModel.fala(requireContext(),"Não há vitórias para serem ZERADAS !")
         }
     }
     fun edita_nome_time(time: TextView){
@@ -344,8 +364,8 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
     fun vitoria(timeVencedor: TextView) {
-        pontosViewModel.grandeVibracao(requireContext())
-        Fala("A equipe ${timeVencedor.text} ganhou essa partida !")
+        sharedViewModel.grandeVibracao(requireContext())
+        sharedViewModel.fala(requireContext(),"A equipe ${timeVencedor.text} ganhou essa partida !")
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
         val view = inflater.inflate(R.layout.vitoria, null)
@@ -370,8 +390,8 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
     override fun onDestroyView() {
+        sharedViewModel.sistemaDeFala.shutdown()
         super.onDestroyView()
-        sistemaDeFala.shutdown()
         _binding = null
     }
 }
