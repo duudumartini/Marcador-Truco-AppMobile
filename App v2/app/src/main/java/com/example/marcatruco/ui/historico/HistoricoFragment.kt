@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -44,7 +45,6 @@ class HistoricoFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        sharedViewModel.sistemaDeFala.shutdown()
         super.onDestroyView()
         _binding = null
     }
@@ -90,6 +90,7 @@ class HistoricoFragment : Fragment() {
     private fun criarTextView(texto: String, corFundo: Int): TextView {
         val textView = TextView(requireContext())
         textView.text = texto
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         textView.textSize = 18f
         textView.typeface = resources.getFont(R.font.anton_regular)
         textView.layoutParams = TableRow.LayoutParams(

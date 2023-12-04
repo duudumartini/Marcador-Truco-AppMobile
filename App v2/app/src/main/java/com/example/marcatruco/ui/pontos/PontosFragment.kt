@@ -1,5 +1,6 @@
 package com.example.marcatruco.ui.pontos
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -136,14 +137,18 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         }
         btnSubNos.setOnClickListener {
             pontosViewModel.subPontos("nos", 1, requireContext())
-            sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} perdeu um ponto")
             Atualizacoes()
+            if(txtPontosNos.text != "0"){
+                sharedViewModel.fala(requireContext(),"A equipe ${txtNos.text} perdeu um ponto")
+            }
             sharedViewModel.pequenaVibracao(requireContext())
         }
         btnSubEles.setOnClickListener {
             pontosViewModel.subPontos("eles", 1, requireContext())
-            sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} perdeu um ponto")
             Atualizacoes()
+            if(txtPontosEles.text != "0"){
+                sharedViewModel.fala(requireContext(),"A equipe ${txtEles.text} perdeu um ponto")
+            }
             sharedViewModel.pequenaVibracao(requireContext())
         }
         btnZerar.setOnClickListener {
@@ -382,6 +387,7 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             dialog.dismiss()
         }
     }
+
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             // Initialization successful

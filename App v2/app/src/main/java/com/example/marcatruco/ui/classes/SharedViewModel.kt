@@ -10,9 +10,8 @@ import androidx.lifecycle.ViewModel
 import java.util.*
 
 class SharedViewModel : ViewModel() {
-    public lateinit var sistemaDeFala: TextToSpeech
     var listaVencedores: MutableList<VencedorClass> = mutableListOf()
-
+    public lateinit var sistemaDeFala: TextToSpeech
     var som: Boolean = true
     var vibracao: Boolean = true
     var pontosVit = 12
@@ -51,12 +50,13 @@ class SharedViewModel : ViewModel() {
 
     fun fala(context: Context, fala: String) {
         sistemaDeFala = TextToSpeech(context) { status ->
-            if (som) {
-                sistemaDeFala.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
+            if (status != TextToSpeech.ERROR) {
+                if (som && !sistemaDeFala.isSpeaking) {
+                    sistemaDeFala.speak(fala, TextToSpeech.QUEUE_FLUSH, null, null)
+                }
             }
         }
     }
-
 
 
 }

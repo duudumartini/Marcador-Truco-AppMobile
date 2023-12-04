@@ -3,6 +3,7 @@ package com.example.marcatruco.ui.configuracoes
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -154,7 +155,6 @@ class ConfiguracoesFragment : Fragment() {
             btnSom.trackTintList = defaultColor1
         }
     }
-
 
     override fun onDestroyView() {
         sharedViewModel.sistemaDeFala.shutdown()
