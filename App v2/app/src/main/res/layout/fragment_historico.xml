@@ -33,7 +33,7 @@
                     android:padding="8dp"
                     android:text="Nós"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="24sp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                     android:padding="8dp"
                     android:text="Eles"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="24sp" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -53,7 +53,8 @@
                     android:padding="8dp"
                     android:text="Vencedor"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20dp"
+                    android:singleLine="true"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -63,7 +64,7 @@
                     android:padding="8dp"
                     android:text="Hora"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="24sp" />
 
 
             </TableRow>
@@ -76,62 +77,27 @@
             <TableLayout
                 android:id="@+id/tabela_historico"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <TableRow
-
+                    android:id="@+id/txt_nao_possui_historico"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#400000">
+                    android:layout_height="match_parent"
+                    android:background="#00400000"
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/tabela_nos_historico"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/anton_regular"
                         android:gravity="center"
-                        android:padding="8dp"
-                        android:text="2"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:padding="8dp" />
 
-                    <TextView
-                        android:id="@+id/tabela_eles_historico"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/anton_regular"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="12"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/tabela_ganhador_historico"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/anton_regular"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="Nós"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/tabela_hora_historico"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/anton_regular"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="16:06:03"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
                 </TableRow>
+
             </TableLayout>
         </ScrollView>
 
@@ -144,7 +110,7 @@
         android:text="LIMPAR HISTORICO"
         android:gravity="center"
         android:textColor="@color/white"
-        android:backgroundTint="@color/red"
+        android:backgroundTint="@color/bktabela1"
         android:fontFamily="@font/anton_regular"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

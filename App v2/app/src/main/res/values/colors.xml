@@ -21,5 +21,10 @@
     <color name="blue">#00F7FF</color>
 
     <color name="bktabela1">#400000</color>
-    <color name="bktabela2">#950000</color>
+    <color name="bktabela2">#FF4F4F</color>
+    <color name="txttabela1">#FF4F4F</color>
+    <color name="txttabela2">#400000</color>
+
+
 </resources>
+

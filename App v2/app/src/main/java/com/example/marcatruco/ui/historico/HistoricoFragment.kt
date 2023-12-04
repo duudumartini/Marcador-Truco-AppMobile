@@ -1,5 +1,6 @@
 package com.example.marcatruco.ui.historico
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -65,17 +66,20 @@ class HistoricoFragment : Fragment() {
     }
 
     private fun atualizarTabela(listaVencedores: List<VencedorClass>) {
-        tabela.removeAllViews()
+        verificaHistoricoLimpo()
+        //tabela.removeAllViews()
+        val listaInvertida = listaVencedores.reversed()
 
-        for (i in listaVencedores.indices) {
-            val novoVencedor = listaVencedores[i]
+        for (i in listaInvertida.indices) {
+            val novoVencedor = listaInvertida[i]
 
             val corFundo = if (i % 2 == 0) R.color.bktabela1 else R.color.bktabela2
+            val corTexto = if (i % 2 == 0) R.color.txttabela1 else R.color.txttabela2
 
-            val nos = criarTextView(novoVencedor.nos.toString(), corFundo)
-            val eles = criarTextView(novoVencedor.eles.toString(), corFundo)
-            val _vencedor = criarTextView(novoVencedor.vencedor.toString(), corFundo)
-            val hora = criarTextView(novoVencedor.hora.toString(), corFundo)
+            val nos = criarTextView(novoVencedor.nos.toString(), corFundo, corTexto)
+            val eles = criarTextView(novoVencedor.eles.toString(), corFundo, corTexto)
+            val _vencedor = criarTextView(novoVencedor.vencedor.toString(), corFundo, corTexto)
+            val hora = criarTextView(novoVencedor.hora.toString(), corFundo, corTexto)
 
             val row = TableRow(requireContext())
             row.setBackgroundResource(corFundo)
@@ -87,15 +91,16 @@ class HistoricoFragment : Fragment() {
         }
     }
 
-    private fun criarTextView(texto: String, corFundo: Int): TextView {
+    private fun criarTextView(texto: String, corFundo: Int, corTexto: Int): TextView {
         val textView = TextView(requireContext())
         textView.text = texto
-        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        textView.setTextColor(ContextCompat.getColor(requireContext(), corTexto))
         textView.textSize = 18f
         textView.typeface = resources.getFont(R.font.anton_regular)
+        textView.gravity = Gravity.CENTER
         textView.layoutParams = TableRow.LayoutParams(
             0,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             1f
         )
         textView.gravity = Gravity.CENTER
@@ -103,9 +108,37 @@ class HistoricoFragment : Fragment() {
         return textView
     }
 
+
     fun limpaHistorico(){
+        tabela.removeAllViews()
         sharedViewModel.listaVencedores.clear()
-        atualizarTabela(sharedViewModel.listaVencedores
-        )
+        atualizarTabela(sharedViewModel.listaVencedores)
+    }
+
+    fun verificaHistoricoLimpo(){
+        if (sharedViewModel.listaVencedores.size == 0) {
+            val textView = TextView(requireContext()).apply {
+                id = R.id.tabela_nos_historico
+                text = "Não há histórico de partidas"
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                textSize = 18f
+                typeface = resources.getFont(R.font.anton_regular)
+                gravity = Gravity.CENTER
+                layoutParams = TableRow.LayoutParams(
+                    0, 150
+                )
+                setPadding(8, 8, 8, 8)
+                setBackgroundColor(Color.parseColor("#400000")) // Define a cor de fundo
+            }
+
+            // Adicione o TextView a algum layout, por exemplo, um TableLayout chamado tabela
+            tabela.addView(textView)
+        }
+
+
+    }
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.salvarListaVencedores(requireContext())
     }
 }

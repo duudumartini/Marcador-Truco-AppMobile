@@ -13,7 +13,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import com.example.marcatruco.databinding.ActivityMainBinding
+import com.example.marcatruco.ui.classes.SharedViewModel
 import com.example.marcatruco.ui.classes.VencedorClass
 import com.example.marcatruco.ui.historico.HistoricoViewModel
 import com.example.marcatruco.ui.pontos.PontosFragment
@@ -26,24 +28,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pontosFragment: PontosFragment
     val historicoViewModel: HistoricoViewModel by viewModels()
     val pontosViewModel: PontosViewModel by viewModels()
-    var listaVencedores1: MutableList<VencedorClass> = mutableListOf()
+    val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbar)
-
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_pontos, R.id.nav_historico, R.id.nav_configuracoes
@@ -52,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         pontosFragment = PontosFragment()
+        sharedViewModel.carregarListaVencedores(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -64,7 +59,9 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun DadosSalvos(){
-        Log.e("MeuErro",listaVencedores1.size.toString())
+    override fun onDestroy() {
+        super.onDestroy()
+        sharedViewModel.salvarListaVencedores(this)
     }
+
 }

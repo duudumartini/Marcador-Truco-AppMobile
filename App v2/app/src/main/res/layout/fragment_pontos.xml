@@ -6,13 +6,35 @@
     android:layout_height="match_parent"
     android:background="@drawable/bk_pontos"
     tools:context=".ui.pontos.PontosFragment">
+
+    <LinearLayout
+        android:id="@+id/icon_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/times">
+
+        <ImageView
+            android:id="@+id/icon_edita_nos"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:src="@drawable/icon_edita_time" />
+        <ImageView
+            android:id="@+id/icon_edita_eles"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:src="@drawable/icon_edita_time" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/times"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
-
+        app:layout_constraintTop_toBottomOf="@id/icon_edit">
         <TextView
             android:id="@+id/txt_nos"
             android:layout_width="0dp"
@@ -22,7 +44,7 @@
             android:text="Nós"
             android:textAlignment="center"
             android:textColor="@color/red"
-            android:textSize="50sp" />
+            android:textSize="50sp"/>
 
         <TextView
             android:id="@+id/txt_eles"
@@ -189,4 +211,5 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

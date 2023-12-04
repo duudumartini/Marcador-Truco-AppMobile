@@ -156,6 +156,11 @@ class ConfiguracoesFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.salvarListaVencedores(requireContext())
+    }
+
     override fun onDestroyView() {
         sharedViewModel.sistemaDeFala.shutdown()
         atualizacoes()

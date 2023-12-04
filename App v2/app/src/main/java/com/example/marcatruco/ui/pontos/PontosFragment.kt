@@ -41,6 +41,8 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var btnSubEles: ImageView
     private lateinit var btnTruco: ImageView
     private lateinit var btnZerar: Button
+    private lateinit var icEditaNos: ImageView
+    private lateinit var icEditaEles: ImageView
 
     private var _binding: FragmentPontosBinding? = null
 
@@ -72,6 +74,8 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         btnSubEles = binding.btnSubEles
         btnTruco = binding.btnTruco
         btnZerar = binding.btnZerar
+        icEditaEles = binding.iconEditaEles
+        icEditaNos = binding.iconEditaNos
 
         pontosViewModel.txtPontosNos.observe(viewLifecycleOwner) {
             txtPontosNos.text = it.toString()
@@ -95,8 +99,6 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
                 sharedViewModel.listaVencedores = sharedViewModel.listaVencedores.toSet().toMutableList()
             }
         })
-
-        Log.e("MeuErro",sharedViewModel.som.toString())
         pontosViewModel.obtemFragment(this)
         pontosViewModel.iniciaParametros()
         ButtonListeners()
@@ -115,8 +117,16 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
     fun ButtonListeners() {
+        icEditaNos.setOnClickListener {
+            edita_nome_time(txtNos)
+            sharedViewModel.pequenaVibracao(requireContext())
+        }
         txtNos.setOnClickListener {
             edita_nome_time(txtNos)
+            sharedViewModel.pequenaVibracao(requireContext())
+        }
+        icEditaEles.setOnClickListener{
+            edita_nome_time(txtEles)
             sharedViewModel.pequenaVibracao(requireContext())
         }
         txtEles.setOnClickListener {
@@ -359,10 +369,12 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             val novoNome = edTxt_EditaTime.text.toString()
             if(time.id == R.id.txt_nos) {
                 txtNos.text = novoNome
+                pontosViewModel.nomeNos = novoNome
                 txtNos.setTextColor(edTxt_EditaTime.currentTextColor)
             }
             else if(time.id == R.id.txt_eles) {
                 txtEles.text = novoNome
+                pontosViewModel.nomeEles = novoNome
                 txtEles.setTextColor(edTxt_EditaTime.currentTextColor)
             }
             dialog.dismiss()
@@ -395,9 +407,16 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             // Initialization failed
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.salvarListaVencedores(requireContext())
+    }
+
     override fun onDestroyView() {
-        sharedViewModel.sistemaDeFala.shutdown()
         super.onDestroyView()
+        sharedViewModel.sistemaDeFala.shutdown()
         _binding = null
+
     }
 }

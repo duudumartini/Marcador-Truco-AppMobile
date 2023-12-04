@@ -27,6 +27,8 @@ class PontosViewModel : ViewModel() {
     var timeNosVenceu = false
     var timeElesVenceu = false
     var pontosVit = 12
+    var nomeNos = "Nós"
+    var nomeEles = "Eles"
 
     private val _listaVencedoresLiveData = MutableLiveData<MutableList<VencedorClass>>()
     val listaVencedoresLiveData: LiveData<MutableList<VencedorClass>> = _listaVencedoresLiveData
@@ -110,7 +112,7 @@ class PontosViewModel : ViewModel() {
         val novoVencedor = VencedorClass().apply {
             nos = pontosNos
             eles = pontosEles
-            vencedor = if (pontosNos > pontosEles) "Nós" else "Eles"
+            vencedor = if (pontosNos > pontosEles) nomeNos else nomeEles
             hora = obterHoraAtual()
         }
         listaVencedores.add(novoVencedor)
