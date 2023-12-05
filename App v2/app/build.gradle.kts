@@ -27,19 +27,22 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
     }
+
+
+
 }
 
 dependencies {
-    implementation ("com.google.android.gms:play-services-ads:22.5.0")
+    implementation("com.google.android.gms:play-services-ads:22.5.0")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
     implementation("androidx.core:core-ktx:1.9.0")

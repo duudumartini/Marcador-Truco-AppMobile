@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -26,6 +27,9 @@ import com.example.marcatruco.databinding.FragmentPontosBinding
 import com.example.marcatruco.ui.classes.SharedViewModel
 import com.example.marcatruco.ui.historico.HistoricoFragment
 import com.example.marcatruco.ui.historico.HistoricoViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 
 class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
 
@@ -43,6 +47,7 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var btnZerar: Button
     private lateinit var icEditaNos: ImageView
     private lateinit var icEditaEles: ImageView
+    private lateinit var adView: AdView
 
     private var _binding: FragmentPontosBinding? = null
 
@@ -76,6 +81,8 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         btnZerar = binding.btnZerar
         icEditaEles = binding.iconEditaEles
         icEditaNos = binding.iconEditaNos
+        adView = binding.adView
+
 
         pontosViewModel.txtPontosNos.observe(viewLifecycleOwner) {
             txtPontosNos.text = it.toString()
@@ -99,6 +106,14 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
                 sharedViewModel.listaVencedores = sharedViewModel.listaVencedores.toSet().toMutableList()
             }
         })
+
+        MobileAds.initialize(requireContext()) {}
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+
+
+
         pontosViewModel.obtemFragment(this)
         pontosViewModel.iniciaParametros()
         ButtonListeners()

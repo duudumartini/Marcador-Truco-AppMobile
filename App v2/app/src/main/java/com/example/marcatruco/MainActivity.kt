@@ -20,14 +20,13 @@ import com.example.marcatruco.ui.classes.VencedorClass
 import com.example.marcatruco.ui.historico.HistoricoViewModel
 import com.example.marcatruco.ui.pontos.PontosFragment
 import com.example.marcatruco.ui.pontos.PontosViewModel
+import com.google.android.gms.ads.MobileAds
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var pontosFragment: PontosFragment
-    val historicoViewModel: HistoricoViewModel by viewModels()
-    val pontosViewModel: PontosViewModel by viewModels()
     val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         pontosFragment = PontosFragment()
         sharedViewModel.carregarListaVencedores(this)
+
+        MobileAds.initialize(this){}
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
