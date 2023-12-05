@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter
 class PontosViewModel : ViewModel() {
     private lateinit var sharedViewModel: SharedViewModel
     var appIniciou = false
-    var vibracaoDuracao: Long = 200
     var pontosNos = 0
     var pontosEles = 0
     var vitoriaNos = 0

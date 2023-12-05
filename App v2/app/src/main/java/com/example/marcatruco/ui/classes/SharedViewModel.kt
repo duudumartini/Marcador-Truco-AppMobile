@@ -20,6 +20,8 @@ class SharedViewModel : ViewModel() {
     var som: Boolean = true
     var vibracao: Boolean = true
     var pontosVit = 12
+    var partidasParaAnuncio = 6
+    var partidaAtualAnuncio = 0
 
     fun salvarListaVencedores(context: Context) {
         val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, 0)

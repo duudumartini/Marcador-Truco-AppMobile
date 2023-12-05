@@ -1,6 +1,5 @@
 package com.example.marcatruco.ui.pontos
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,11 +16,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.marcatruco.R
 import com.example.marcatruco.databinding.FragmentPontosBinding
 import com.example.marcatruco.ui.classes.SharedViewModel
@@ -29,7 +26,11 @@ import com.example.marcatruco.ui.historico.HistoricoFragment
 import com.example.marcatruco.ui.historico.HistoricoViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 
 class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
 
@@ -47,7 +48,10 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var btnZerar: Button
     private lateinit var icEditaNos: ImageView
     private lateinit var icEditaEles: ImageView
-    private lateinit var adView: AdView
+    private lateinit var adBannerPonto: AdView
+
+    private var rewardedInterstitialAd: RewardedInterstitialAd? = null
+    private val TAG = "MainActivity"
 
     private var _binding: FragmentPontosBinding? = null
 
@@ -81,7 +85,7 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         btnZerar = binding.btnZerar
         icEditaEles = binding.iconEditaEles
         icEditaNos = binding.iconEditaNos
-        adView = binding.adView
+        adBannerPonto = binding.adView
 
 
         pontosViewModel.txtPontosNos.observe(viewLifecycleOwner) {
@@ -110,7 +114,7 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         MobileAds.initialize(requireContext()) {}
 
         val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+        adBannerPonto.loadAd(adRequest)
 
 
 
@@ -227,6 +231,43 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
             txtVitEles.setTextColor(ContextCompat.getColor(requireContext(), R.color.yellow))
         }
     }
+
+    private fun anuncioFullScreen() {
+        RewardedInterstitialAd.load(
+            requireContext(),
+            "ca-app-pub-8332439849528174/3682129092",
+            AdRequest.Builder().build(),
+            object : RewardedInterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: RewardedInterstitialAd) {
+                    Log.d(TAG, "Ad was loaded.")
+                    rewardedInterstitialAd = ad
+                    showRewardedInterstitialAd()
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d(TAG, adError?.toString() ?: "Ad failed to load")
+                    rewardedInterstitialAd = null
+                }
+            }
+        )
+    }
+
+    private fun showRewardedInterstitialAd() {
+        rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                // Ad foi exibido em tela inteira
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Ad foi fechado em tela inteira
+            }
+        }
+
+        rewardedInterstitialAd?.show(requireActivity()) {
+            sharedViewModel.partidaAtualAnuncio = 0
+        }
+    }
+
     fun truco() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
@@ -411,7 +452,12 @@ class PontosFragment : Fragment(), TextToSpeech.OnInitListener {
         JogarNovamente.setOnClickListener {
             pontosViewModel.timeElesVenceu = false
             pontosViewModel.timeNosVenceu = false
+            sharedViewModel.partidaAtualAnuncio ++
+            if(sharedViewModel.partidaAtualAnuncio >= sharedViewModel.partidasParaAnuncio){
+                anuncioFullScreen()
+            }
             dialog.dismiss()
+
         }
     }
 

@@ -167,7 +167,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/propaganda">
+        app:layout_constraintBottom_toTopOf="@+id/propaganda_pontos">
 
         <TextView
             android:id="@+id/txt_vit_nos"
@@ -203,7 +203,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/propaganda"
+        android:id="@+id/propaganda_pontos"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal"
