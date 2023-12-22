@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="300dp"
-        android:layout_height="467dp"
+        android:layout_height="374dp"
         android:layout_gravity="center"
         android:src="@drawable/trofeu" />
 
@@ -39,7 +39,7 @@
 
     <Button
         android:id="@+id/btn_jogar_novamente"
-        android:layout_width="150dp"
+        android:layout_width="220dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:gravity="center"

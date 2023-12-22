@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bk_pontos"
-    tools:context=".ui.pontos.PontosFragment">
+    tools:context="com.app.marcatruco.ui.pontos.PontosFragment">
 
     <LinearLayout
         android:id="@+id/icon_edit"

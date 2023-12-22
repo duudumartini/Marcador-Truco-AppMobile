@@ -22,7 +22,7 @@
             android:value="ca-app-pub-8332439849528174~5398148408"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.app.marcatruco.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MarcaTruco.NoActionBar"

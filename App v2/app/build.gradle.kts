@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.marcatruco"
+    namespace = "com.app.marcatruco"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.marcatruco"
+        applicationId = "com.app.marcatruco"
         minSdk = 27
         targetSdk = 34
         versionCode = 1

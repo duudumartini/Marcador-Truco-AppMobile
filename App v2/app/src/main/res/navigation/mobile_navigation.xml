@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_pontos"
-        android:name="com.example.marcatruco.ui.pontos.PontosFragment"
+        android:name="com.app.marcatruco.ui.pontos.PontosFragment"
         android:label="@string/menu_pontos"
         tools:layout="@layout/fragment_pontos" />
 
     <fragment
         android:id="@+id/nav_historico"
-        android:name="com.example.marcatruco.ui.historico.HistoricoFragment"
+        android:name="com.app.marcatruco.ui.historico.HistoricoFragment"
         android:label="@string/menu_historico"
         tools:layout="@layout/fragment_historico" />
 
     <fragment
         android:id="@+id/nav_configuracoes"
-        android:name="com.example.marcatruco.ui.configuracoes.ConfiguracoesFragment"
+        android:name="com.app.marcatruco.ui.configuracoes.ConfiguracoesFragment"
         android:label="@string/menu_configuracoes"
         tools:layout="@layout/fragment_configuracoes" />
 </navigation>
